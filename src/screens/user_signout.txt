@@ -1,0 +1,4 @@
+y n
+-SIGNOUT CONFIRMATION
+ Are you sure that you want to sign out of your account? Input (Y/N)
+

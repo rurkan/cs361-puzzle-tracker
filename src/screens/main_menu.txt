@@ -1,7 +1,6 @@
 1 2 3 p ex
--MAIN MENU
+-MAIN MENU 
  Hello, $username
-
  What would you like to do today?
 $error
 1. Play Puzzles

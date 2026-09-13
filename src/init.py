@@ -1,5 +1,5 @@
 from methods.clear import clearscreen
-from methods.read_user import get_username
+from methods.user_data import get_username
 from interface import login_screen, main_menu
 
 
@@ -9,7 +9,6 @@ def main():
     # The message is to make sure users know it's frozen for a reason
     clearscreen()
     # Check if there's already a username file, if not, display login screen
-    username = get_username()
     if(username != None):
         main_menu(username)
     elif(username == None):
@@ -17,5 +16,6 @@ def main():
     else:
         print("Something went wrong, our bad. Investigate and try again.")
         exit()
-        
+
+username = get_username()
 main()

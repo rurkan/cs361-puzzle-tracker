@@ -1,0 +1,10 @@
+1 2 m ex
+-ACCOUNT SETTINGS
+ Chess CLI Puzzles
+ Data For: $username
+ Completed Puzzles: $num_puzzles
+$error
+1. Reset Puzzle History
+2. Sign Out
+M. Main Menu
+EX. Exit Application
