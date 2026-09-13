@@ -1,2 +1,5 @@
 .venv
 logs
+local_data
+src/__pycache
+__pycache__

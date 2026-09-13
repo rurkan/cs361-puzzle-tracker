@@ -16,6 +16,10 @@ rm -rf logs
 printf "Creating ./logs folder and ./logs/pip.log file\n"
 mkdir logs
 touch logs/pip.log
+mkdir local_data
+touch local_data/users_plaintext.csv
+touch local_data/user_info.csv
+mkdir local_data/puzzle_history
 
 # pip3 install grpcio grpcio-tools chess > logs/pip.log
 pip3 install chess

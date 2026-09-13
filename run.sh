@@ -7,4 +7,4 @@ fi
 
 
 VENV_PYTHON="./.venv/bin/python3"
-$VENV_PYTHON src/interface.py
+$VENV_PYTHON src/init.py
