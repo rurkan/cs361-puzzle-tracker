@@ -3,7 +3,7 @@
 
  This application is a lightweight and offline terminal based chess puzzle practice app.
  
- error
+$error
 1. Login
 2. Create Account
 EX. Exit Application

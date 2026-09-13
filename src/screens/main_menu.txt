@@ -1,0 +1,11 @@
+1 2 3 p ex
+-MAIN MENU
+ Hello, $username
+
+ What would you like to do today?
+$error
+1. Play Puzzles
+2. View Play History
+3. Account Settings
+P. Quick Play Random Puzzles
+EX. Exit Application
