@@ -7,13 +7,17 @@ from methods.print_helper import (
 )
 from methods.user_data import (
   user_signout,
-  user_signin
+  user_signin,
+  generate_account,
+  signin_valid
 )
+from time import sleep
 
 screen_path = "src/screens/"
 
 def display_screen(lines, error = None, username = None):
   clearscreen()
+  data = []
   for line in lines[1:]:
     
     # If the line is blank or has no modifiers, just print
@@ -36,23 +40,33 @@ def display_screen(lines, error = None, username = None):
       modifiers.append(" ")
     if(line[0] == ">"):
       modifiers.append(">")
-      
-    print_with_modifiers(line, modifiers, error, username)
-  if not ">" in modifiers:
-    return(input("Option Select: ").lower())
+    
+    val = print_with_modifiers(line, modifiers, error, username)
+    if ">" in modifiers:
+      if val == "cancel":
+        return val
+      data.append(val)
 
-def get_screen_input(filepath, data = None, username = None):
+  if not ">" in modifiers:
+    data = input("Option Select: ").lower()
+  return data
+
+
+def get_screen_input(filepath, error = None, username = None):
 
   file = open(filepath, 'r', encoding='utf-8')
   lines = file.read().splitlines()
   file.close()
   
   options = lines[0].split()
-  userin = display_screen(lines, data, username)
-  while userin.lower() not in options:
-    print(userin.lower())
-    print(options)
-    userin = display_screen(lines, "PLEASE INPUT A SELECTION FROM THE OPTIONS AVAILABLE", username)
+  userin = display_screen(lines, error, username)
+  if type(userin) is not list:
+    while userin.lower() not in options:
+      userin = display_screen(lines, "PLEASE INPUT A SELECTION FROM THE OPTIONS AVAILABLE", username)
+  elif(len(userin)>2 and userin[1] != userin[2]):
+    while (userin[1] != userin[2]):
+      userin = display_screen(lines, "PASSWORDS DO NOT MATCH. PLEASE TRY AGAIN")
+    
   return userin
   
 def screen_select_handler(screen_code, username = None):
@@ -62,28 +76,48 @@ def screen_select_handler(screen_code, username = None):
       print("Thanks for playing the Chess CLI Puzzles app!\n")
       exit()
     case "login":
-      return(login_screen())
+      return(login_home())
+    case "login_input":
+      return(login_input())
     case "menu":
       return(main_menu(username))
-    case "create_account":
-      return(account_creation())
+    case "create_account_home":
+      return(create_account_home())
+    case "create_account_input":
+      return(create_account_input())
     case "settings":
       return(account_settings(username))
-  
       
     
-def login_screen():
+def login_home():
   userin = get_screen_input(screen_path+"login_home.txt")
   match userin:
     case "1":
-      centerprint_string("PROMPT USER FOR LOGIN INFO, INCOMPLETE", "-")
-      username = input("Username (no pass for testing): ")
-      user_signin(username)
+      # centerprint_string("PROMPT USER FOR LOGIN INFO, INCOMPLETE", "-")
+      # username = input("Username (no pass for testing): ")
+      # user_signin(username)
+      return(["login_input",None])
       return(["menu", username])
     case "2":
-      return(["create_account", None])
+      return(["create_account_home", None])
     case _:
       return(["ex", None])
+      
+      
+def login_input():
+  userin = get_screen_input(screen_path+"login_input.txt")
+  logged_in = signin_valid(userin)
+  while logged_in != True:
+    if logged_in == "cancel":
+      centerprint_string("You input CANCEL. Cancelling signin attempt","-")
+      sleep(2)
+      return(["login", None])
+    else:
+      error = "ERROR: INCORRECT USERNAME OR PASSWORD, TRY AGAIN"
+      userin = get_screen_input(screen_path+"login_input.txt", error)
+      logged_in = signin_valid(userin)
+  user_signin(userin[0])
+  return(["menu",userin[0]])
       
   
 def main_menu(username):
@@ -104,22 +138,34 @@ def main_menu(username):
       return(["ex", None])
 
 
-def account_creation():
+def create_account_home():
   userin = get_screen_input(screen_path+"create_account_home.txt")
   
   match userin:
     case "1":
-      centerprint_string("Usernames and passwords must be alphanumeric.")
-      info = get_account_info("creation")
-
-###########################################################
-
-
-
+      return(["create_account_input", None])
     case "b":
       return(["login", None])
     case _:
       return(["ex", None])
+
+def create_account_input():
+  userin = get_screen_input(screen_path+"create_account_input.txt")
+  created = generate_account(userin)
+  while created is not True:
+    if created == "cancel":
+      centerprint_string("You input CANCEL. Cancelling account creation","-")
+      sleep(2)
+      return(["login", None])
+    match created:
+      case "exists":
+        error = "ERROR: ACCOUNT WITH THIS USERNAME ALREADY EXISTS"
+      case "same":
+        error = "ERROR: USERNAME AND PASSWORD CANNOT BE THE SAME"
+    userin = get_screen_input(screen_path+"create_account_input.txt", error)
+    created = generate_account(userin)
+
+  return(["login", None])
 
 
 def account_settings(username):
@@ -147,19 +193,3 @@ def confirmation_screen(confirmation_type, username):
       return(["login", None])
     else:
       return(["settings", username])
-  
-
-def get_account_info(infotype):
-  if(infotype == "login"):
-    print("Nothing to do currently")
-  elif(infotype == "creation"):
-    index = 0
-    username = get_simple_info("Username")
-    user_data = ["_INVALID_", "_INVALID_", "_INVALID_"]
-        
-
-def get_simple_info(infotype):
-  information = "_INVALID_"
-  while not information.isalnum():
-    information = input(infotype+": ")
-  return information

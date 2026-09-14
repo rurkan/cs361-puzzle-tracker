@@ -1,9 +1,0 @@
-other
--CREATE YOUR ACCOUNT
-
- Usernames and passwords must be alphanumeric.
- Please enter your account information
-$error
->Username: 
->Password: 
->Repeat Password: 

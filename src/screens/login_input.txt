@@ -1,7 +1,9 @@
-other
+other cancel
 -LOG IN TO YOUR ACCOUNT
 
  As a reminder, usernames and passwords are alphanumeric
+
+ To go back, instead type CANCEL
  Please enter yor account information
 $error
 >Username: 

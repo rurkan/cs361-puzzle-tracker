@@ -2,9 +2,10 @@
  Welcome to the Chess CLI Puzzles App
 
  This application is a lightweight and offline terminal based chess puzzle practice app.
+ It is designed to work with terminals of different widths, as long as they can fit the printed chessboard.
  
 $error
-To select an option, please type the corresponding character(s) and press enter.
+ To select an option, please type the corresponding character(s) and press enter.
 1. Login
 2. Create Account
 EX. Exit Application

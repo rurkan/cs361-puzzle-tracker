@@ -19,7 +19,6 @@ def main():
         exit()
     data = [screen_code, username]
     while(True):
-    # for i in range(0,10):
         data = screen_select_handler(data[0], data[1])
 
 

@@ -1,0 +1,15 @@
+other cancel
+-CREATE YOUR ACCOUNT
+
+ Usernames and passwords must be alphanumeric.
+ Please enter your account information
+
+ Warning:
+ Accounts are purely local and as such a backup of the app including account data should be kept on another device.
+
+
+ To go back, instead type CANCEL
+$error
+>Username: 
+>Password: 
+>Repeat Password: 
