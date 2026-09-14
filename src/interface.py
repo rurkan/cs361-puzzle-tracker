@@ -1,31 +1,44 @@
 from methods.clear import clearscreen
-from methods.centerprints import centerprint_string
-from methods.user_data import user_signout, user_signin
+from methods.print_helper import (
+  centerprint_string,
+  incomplete_screen,
+  print_with_modifiers
+)
+from methods.user_data import (
+  user_signout,
+  user_signin
+)
+
+screen_path = "src/screens/"
 
 def display_screen(lines, error = None, username = None):
   clearscreen()
   for line in lines[1:]:
-    # If the line isn't blank, there are a few special character codes
-    # " " for center and "-" for hyphen spacer at the beginning
-    # or begin a word (not line) with "$" for a variable
-    # Easiest way I could think of to designate special formatting
-    if(len(line) != 0 and (not line[0].isalnum())):
-      if(line[0] == "-"):
-        centerprint_string(line, "-")
-      elif("$error" in line):
-        if(error is not None): # error should never be none if we reach this
-          centerprint_string(error, "-")
-      elif("$username" in line):
-        if(username is not None):
-          centerprint_string(line[1:line.find("$")]+username)
-        else:
-          centerprint_string("NullUser")
-      else:
-        centerprint_string(line[1:])
-    else:
+    
+    # If the line is blank or has no modifiers, just print
+    if (len(line) == 0 or line[0].isalnum()):
       print(line)
-  return(input("Option Select: ").lower())
+      continue
+      
+    # If the line has modifiers. See modifiers belo
+    # Start with " " for center, "-" for hyphen spacer, or ">" for user input
+    # or begin a word (not line) with "$" for a variable
+    modifiers = []
 
+    if("$error" in line):
+      modifiers.append("$error")
+    if("$username" in line):
+      modifiers.append("$username")
+    if(line[0] == "-"):
+      modifiers.append("-")
+    if(line[0] == " "):
+      modifiers.append(" ")
+    if(line[0] == ">"):
+      modifiers.append(">")
+      
+    print_with_modifiers(line, modifiers, error, username)
+  if not ">" in modifiers:
+    return(input("Option Select: ").lower())
 
 def get_screen_input(filepath, data = None, username = None):
 
@@ -51,12 +64,15 @@ def screen_select_handler(screen_code, username = None):
       login_screen()
     case "menu":
       main_menu(username)
+    case "create_account":
+      # account_creation()
+      incomplete_screen("ACCOUNT CREATION")
     case "settings":
       account_settings(username)
       
     
 def login_screen():
-  userin = get_screen_input("src/screens/login.txt")
+  userin = get_screen_input(screen_path+"login.txt")
   match userin:
     case "1":
       centerprint_string("PROMPT USER FOR LOGIN INFO, INCOMPLETE", "-")
@@ -64,31 +80,31 @@ def login_screen():
       user_signin(username)
       screen_select_handler("menu", username)
     case "2":
-      centerprint_string("DISPLAY ACCOUNT CREATION SCREEN, INCOMPLETE", "-")
-      screen_select_handler("ex")
+      screen_select_handler("create_account")
     case _:
       screen_select_handler("ex")
       
   
 def main_menu(username):
-  userin = get_screen_input("src/screens/main_menu.txt", None, username)
+  userin = get_screen_input(screen_path+"main_menu.txt", None, username)
   match userin:
     case "1":
-      centerprint_string("DISPLAY PUZZLE SCREEN, INCOMPLETE", "-")
+      incomplete_screen("PUZZLE")
       screen_select_handler("ex")
     case "2":
-      centerprint_string("DISPLAY HISTORY SCREEN, INCOMPLETE", "-")
+      incomplete_screen("HISTORY")
       screen_select_handler("ex")
     case "3":
       screen_select_handler("settings", username)
     case "p":
-      centerprint_string("DISPLAY PUZZLE SCREEN, INCOMPLETE" "-")
+      incomplete_screen("PUZZLE")
       screen_select_handler("ex")
     case _:
       screen_select_handler("ex")
 
+
 def account_settings(username):
-  userin = get_screen_input("src/screens/account_settings.txt", None, username)
+  userin = get_screen_input(screen_path+"account_settings.txt", None, username)
   match userin:
     case "1":
       confirmation_screen("user_history_reset", username)
@@ -100,10 +116,10 @@ def account_settings(username):
       screen_select_handler("ex")
       
 def confirmation_screen(confirmation_type, username):
-  userin = get_screen_input("src/screens/"+confirmation_type+".txt")
+  userin = get_screen_input(screen_path+""+confirmation_type+".txt")
   if(confirmation_type == "user_history_reset"):
     if(userin == "confirm_reset"):
-      centerprint_string("PUZZLE HISTORY AND/OR HISTORY DELETION NOT IMPLEMENTED", "-")
+      incomplete_screen("DELETED HISTORY")
     screen_select_handler("settings", username)
   elif(confirmation_type == "user_signout"):
     if(userin == "y"):
