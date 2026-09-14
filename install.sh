@@ -18,6 +18,7 @@ mkdir logs
 touch logs/pip.log
 mkdir local_data
 touch local_data/users_plaintext.csv
+echo "username,password_plaintext" > local_data/users_plaintext.csv
 touch local_data/user_info.csv
 mkdir local_data/puzzle_history
 
