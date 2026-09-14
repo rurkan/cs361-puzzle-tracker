@@ -1,9 +1,8 @@
-1 2 ex
- Welcome to the Chess CLI Puzzles App
+other
+-LOG IN TO YOUR ACCOUNT
 
- This application is a lightweight and offline terminal based chess puzzle practice app.
- 
+ As a reminder, usernames and passwords are alphanumeric
+ Please enter yor account information
 $error
-1. Login
-2. Create Account
-EX. Exit Application
+>Username: 
+>Password: 

@@ -7,6 +7,9 @@ from math import floor
 terminal_size = os.get_terminal_size()
 terminal_width = terminal_size[0]
 
+def printwrap(line):
+  print(textwrap.fill(line, width = floor(terminal_width*9/10)))
+
 # Spacer modification by me, to make center printed errors stand out
 def print_centered(string_in, spacer):
 
@@ -32,7 +35,7 @@ def centerprint_string(string_in, spacer = None):
     
     
 def incomplete_screen(screen_name):
-  centerprint_string("DISPLAY"+screen_name+"SCREEN, INCOMPLETE", "-")
+  centerprint_string("DISPLAY "+screen_name+" SCREEN, INCOMPLETE", "-")
   
 
   
@@ -53,27 +56,22 @@ def apply_replacements(line, modifiers, error = None, username = None):
 
 def print_with_modifiers(line, modifiers, error = None, username = None):
   line = apply_replacements(line, modifiers, error, username)
-  if "-" in modifiers:
+  if "-" in modifiers or ("$error" in modifiers and error != None):
     centerprint_string(line, "-")
     return
   if " " in modifiers:
     centerprint_string(line)
     return
   if ">" in modifiers:
-    centerprint_string(line, ">")
+    userin = "__INVALID__"
+    while not userin.isalnum():
+      userin = input(line[1:])
+    return userin
+    # centerprint_string(line, ">")
     # Currently don't have the actual verison of this implemented
     return
   print(line)
   
-  
-# modifiers = ["$username", "$error"]
-# test = print_with_modifiers("Hello, $error and $username", modifiers, "err", "usr")
 
-# test = print_with_modifiers("Hello, $error and $username", modifiers)
-
-# modifiers = ["$error"]
-# print("Empty err string below")
-# test = print_with_modifiers("$error", modifiers)
-# test = print_with_modifiers("$error", modifiers, "ERROR: What are you doing")
 
 

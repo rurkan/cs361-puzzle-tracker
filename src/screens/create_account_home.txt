@@ -1,0 +1,7 @@
+1 b ex
+-ACCOUNT CREATION
+ Welcome to the Chess CLI Puzzles App
+$error
+1. Create Account
+B. Back to Login
+EX. Exit Application

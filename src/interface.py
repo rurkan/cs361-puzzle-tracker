@@ -2,7 +2,8 @@ from methods.clear import clearscreen
 from methods.print_helper import (
   centerprint_string,
   incomplete_screen,
-  print_with_modifiers
+  print_with_modifiers,
+  printwrap
 )
 from methods.user_data import (
   user_signout,
@@ -17,7 +18,7 @@ def display_screen(lines, error = None, username = None):
     
     # If the line is blank or has no modifiers, just print
     if (len(line) == 0 or line[0].isalnum()):
-      print(line)
+      printwrap(line)
       continue
       
     # If the line has modifiers. See modifiers belo
@@ -61,28 +62,28 @@ def screen_select_handler(screen_code, username = None):
       print("Thanks for playing the Chess CLI Puzzles app!\n")
       exit()
     case "login":
-      login_screen()
+      return(login_screen())
     case "menu":
-      main_menu(username)
+      return(main_menu(username))
     case "create_account":
-      # account_creation()
-      incomplete_screen("ACCOUNT CREATION")
+      return(account_creation())
     case "settings":
-      account_settings(username)
+      return(account_settings(username))
+  
       
     
 def login_screen():
-  userin = get_screen_input(screen_path+"login.txt")
+  userin = get_screen_input(screen_path+"login_home.txt")
   match userin:
     case "1":
       centerprint_string("PROMPT USER FOR LOGIN INFO, INCOMPLETE", "-")
       username = input("Username (no pass for testing): ")
       user_signin(username)
-      screen_select_handler("menu", username)
+      return(["menu", username])
     case "2":
-      screen_select_handler("create_account")
+      return(["create_account", None])
     case _:
-      screen_select_handler("ex")
+      return(["ex", None])
       
   
 def main_menu(username):
@@ -90,40 +91,75 @@ def main_menu(username):
   match userin:
     case "1":
       incomplete_screen("PUZZLE")
-      screen_select_handler("ex")
+      return(["ex", None])
     case "2":
       incomplete_screen("HISTORY")
-      screen_select_handler("ex")
+      return(["ex", None])
     case "3":
-      screen_select_handler("settings", username)
+      return(["settings", username])
     case "p":
       incomplete_screen("PUZZLE")
-      screen_select_handler("ex")
+      return(["ex", None])
     case _:
-      screen_select_handler("ex")
+      return(["ex", None])
+
+
+def account_creation():
+  userin = get_screen_input(screen_path+"create_account_home.txt")
+  
+  match userin:
+    case "1":
+      centerprint_string("Usernames and passwords must be alphanumeric.")
+      info = get_account_info("creation")
+
+###########################################################
+
+
+
+    case "b":
+      return(["login", None])
+    case _:
+      return(["ex", None])
 
 
 def account_settings(username):
   userin = get_screen_input(screen_path+"account_settings.txt", None, username)
   match userin:
     case "1":
-      confirmation_screen("user_history_reset", username)
+      return(confirmation_screen("user_history_reset", username))
     case "2":
-      confirmation_screen("user_signout", username)
+      return(confirmation_screen("user_signout", username))
     case "m":
-      screen_select_handler("menu", username)
+      return(["menu", username])
     case _:
-      screen_select_handler("ex")
+      return(["ex"])
       
 def confirmation_screen(confirmation_type, username):
   userin = get_screen_input(screen_path+""+confirmation_type+".txt")
   if(confirmation_type == "user_history_reset"):
     if(userin == "confirm_reset"):
       incomplete_screen("DELETED HISTORY")
-    screen_select_handler("settings", username)
+      return(["ex", None])
+    return(["settings", username])
   elif(confirmation_type == "user_signout"):
     if(userin == "y"):
       user_signout()
-      screen_select_handler("login")
+      return(["login", None])
+    else:
+      return(["settings", username])
   
-  
+
+def get_account_info(infotype):
+  if(infotype == "login"):
+    print("Nothing to do currently")
+  elif(infotype == "creation"):
+    index = 0
+    username = get_simple_info("Username")
+    user_data = ["_INVALID_", "_INVALID_", "_INVALID_"]
+        
+
+def get_simple_info(infotype):
+  information = "_INVALID_"
+  while not information.isalnum():
+    information = input(infotype+": ")
+  return information
