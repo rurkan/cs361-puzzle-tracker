@@ -64,12 +64,19 @@ def print_with_modifiers(line, modifiers, error = None, username = None):
     return
   if ">" in modifiers:
     userin = "__INVALID__"
-    while not userin.isalnum():
+    isvalid = False
+    while not isvalid:
       userin = input(line[1:])
+      if(userin.lower() == "cancel"):
+        return "cancel"
+      if(userin.isalnum()):
+        isvalid = True
+        continue
+      print("\033[1A\033[2K", end="", flush=True)
+    
     return userin
     # centerprint_string(line, ">")
     # Currently don't have the actual verison of this implemented
-    return
   print(line)
   
 
