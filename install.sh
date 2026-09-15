@@ -23,7 +23,7 @@ touch local_data/user_info.csv
 mkdir local_data/puzzle_history
 
 # pip3 install grpcio grpcio-tools chess > logs/pip.log
-pip3 install chess pandas
+pip3 install chess pandas > logs/pip.log
 cd src
 # python3 -m grpc_tools.protoc -I ../proto --python_out=. --grpc_python_out=. ../proto/jsonFormat.proto
 cd ..

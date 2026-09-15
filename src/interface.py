@@ -1,3 +1,5 @@
+from time import sleep
+from sys import exit
 from methods.clear import clearscreen
 from methods.print_helper import (
   centerprint_string,
@@ -11,7 +13,6 @@ from methods.user_data import (
   generate_account,
   signin_valid
 )
-from time import sleep
 
 screen_path = "src/screens/"
 
@@ -54,9 +55,8 @@ def display_screen(lines, error = None, username = None):
 
 def get_screen_input(filepath, error = None, username = None):
 
-  file = open(filepath, 'r', encoding='utf-8')
-  lines = file.read().splitlines()
-  file.close()
+  with open(filepath, 'r', encoding='utf-8') as file:
+    lines = file.read().splitlines()
   
   options = lines[0].split()
   userin = display_screen(lines, error, username)
@@ -97,7 +97,6 @@ def login_home():
       # username = input("Username (no pass for testing): ")
       # user_signin(username)
       return(["login_input",None])
-      return(["menu", username])
     case "2":
       return(["create_account_home", None])
     case _:
