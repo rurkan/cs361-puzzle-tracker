@@ -6,7 +6,14 @@ def read_puzzles(path = None):
   if(path == None):
     path = "local_data/puzzles_library.csv"
   global df
-  df = pd.read_csv(path)
+  try:
+    df = pd.read_csv(path)
+  except FileNotFoundError:
+      print("\nERROR: You do not currently have a puzzle library, please put it at:\n\t./local_data/puzzles_library.csv")
+      print("\n A recommended puzzle database is the Lichess database, found at https://database.lichess.org/#puzzles\n")
+      print("Alternatives are acceptable if they follow the Lichess database formatting\n")
+      return False
+
 
 def get_puzzles():
   return df

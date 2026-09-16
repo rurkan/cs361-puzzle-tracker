@@ -7,8 +7,10 @@ from methods.puzzle_manager import read_puzzles
 
 def main():
   screen_code = None
-  print("Loading puzzles data file, please wait! This can take a while.")
-  read_puzzles()
+  print("Attempting to load puzzles data file, please wait! This can take a while.")
+  if(read_puzzles() is False):
+    exit()
+  
   # read_puzzles("local_data/lichess_db_puzzle.csv")
   # 1GB database including 6 million puzzles o_O, loading takes forever
   
