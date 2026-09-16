@@ -12,32 +12,32 @@ from screens_py.puzzles import play_puzzle, puzzle_by_id, puzzle_by_theme, puzzl
 from screens_py.settings import account_settings
 
 
-def screen_select_handler(screen_code, username = None):
+def screen_select_handler(screen_code, username=None):
   match screen_code:
     case "ex":
       clearscreen()
       print("Thanks for playing the Chess CLI Puzzles app!\n")
       exit()
     case "login":
-      return(login_home())
+      return login_home()
     case "login_input":
-      return(login_input())
+      return login_input()
     case "menu":
-      return(main_menu(username))
+      return main_menu(username)
     case "create_account_home":
-      return(create_account_home())
+      return create_account_home()
     case "create_account_input":
-      return(create_account_input())
+      return create_account_input()
     case "puzzle_main":
-      return(puzzle_main(username))
+      return puzzle_main(username)
     case "play_puzzle":
-      return(play_puzzle(username))
+      return play_puzzle(username)
     case "puzzle_theme":
-      return(puzzle_by_theme(username))
+      return puzzle_by_theme(username)
     case "puzzle_id":
-      return(puzzle_by_id(username))
+      return puzzle_by_id(username)
     case "settings":
-      return(account_settings(username))
+      return account_settings(username)
     case _:
-      print("The screen "+screen_code+" does not currently exist. We apologize.")
+      print("The screen " + screen_code + " does not currently exist. We apologize.")
       exit()

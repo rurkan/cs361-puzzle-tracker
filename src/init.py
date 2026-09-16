@@ -9,12 +9,12 @@ from methods.user_data import get_username
 def main():
   screen_code = None
   print("Attempting to load puzzles data file, please wait! This can take a while.")
-  if(read_puzzles() is False):
+  if read_puzzles() is False:
     exit()
-  
+
   # read_puzzles("local_data/lichess_db_puzzle.csv")
   # 1GB database including 6 million puzzles o_O, loading takes forever
-  
+
   # return()
   clearscreen()
   # Check if there's already a username file, if not, display login screen

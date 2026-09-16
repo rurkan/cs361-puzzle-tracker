@@ -10,79 +10,81 @@ from methods.user_data import add_to_history, get_cancel_time
 
 
 def puzzle_main(username):
-  userin = get_screen_input(puzzles+"puzzle_main.txt", make_dict(usr=username))
+  userin = get_screen_input(puzzles + "puzzle_main.txt", make_dict(usr=username))
   match userin:
     case "1":
-      return(["play_puzzle",username])
+      return ["play_puzzle", username]
     case "2":
-      return(["puzzle_theme",username])
+      return ["puzzle_theme", username]
     case "3":
-      return(["puzzle_id",username])
+      return ["puzzle_id", username]
     case "m":
-      return(["menu",username])
+      return ["menu", username]
     case _:
-      return(["ex", None])
-    
+      return ["ex", None]
+
 
 def puzzle_by_theme(username):
   data = make_dict(usr=username)
   themes = get_themes()
   result = False
   while result in ["cancel", "themes", False]:
-    userin = get_screen_input(puzzles+"puzzle_by_theme.txt", data)
-    if(userin == "cancel"):
-      centerprint_string("You input CANCEL. Cancelling search by theme","-")
+    userin = get_screen_input(puzzles + "puzzle_by_theme.txt", data)
+    if userin == "cancel":
+      centerprint_string("You input CANCEL. Cancelling search by theme", "-")
       sleep(get_cancel_time(username))
-      return(["puzzle_main", username])
-    elif(userin[0] == "themes"):
-      data["$themes"] = "List of all themes: "+(", ".join(themes))
+      return ["puzzle_main", username]
+    elif userin[0] == "themes":
+      data["$themes"] = "List of all themes: " + (", ".join(themes))
       continue
     else:
       if userin[0] not in themes:
-        data["$error"] = "ERROR: Please input a valid theme. Type \"themes\" for a list of themes"
+        data["$error"] = (
+          'ERROR: Please input a valid theme. Type "themes" for a list of themes'
+        )
         continue
       return play_puzzle(username, Theme=userin[0])
-    
+
 
 def puzzle_by_id(username):
   data = make_dict(usr=username)
   puzzle = None
   while puzzle is None:
-    userin = get_screen_input(puzzles+"puzzle_by_id.txt", data)
-    if(userin == "cancel"):
-      centerprint_string("You input CANCEL. Cancelling search by theme","-")
+    userin = get_screen_input(puzzles + "puzzle_by_id.txt", data)
+    if userin == "cancel":
+      centerprint_string("You input CANCEL. Cancelling search by theme", "-")
       sleep(get_cancel_time(username))
-      return(["puzzle_main", username])
-    else: 
+      return ["puzzle_main", username]
+    else:
       result = play_puzzle(username, PuzzleId=userin[0])
       if result is None:
         data["$error"] = "ERROR: Please input a valid PuzzleID"
         continue
       else:
         return result
-  
-  
+
+
 def play_puzzle(username, PuzzleId=None, Theme=None):
   data = make_dict(usr=username, id=PuzzleId)
-  data["theme"]=Theme
+  data["theme"] = Theme
   data = puzzle_handler(data)
-  if(data) is None:
+  if (data) is None:
     return None
 
   play_result = False
   while play_result != "success":
-    userin = get_screen_input(puzzles+"play_puzzle.txt", data)
+    userin = get_screen_input(puzzles + "play_puzzle.txt", data)
     if userin == "cancel":
-      centerprint_string("You input CANCEL. Going back to the puzzle menu.","-")
+      centerprint_string("You input CANCEL. Going back to the puzzle menu.", "-")
       sleep(get_cancel_time(username))
-      return(["puzzle_main", username])
+      return ["puzzle_main", username]
     else:
       play_result = play_move(data, userin)
       if play_result == "success":
         print("Puzzle complete! Writing puzzle to player history, please wait.")
         print("Puzzle history is currently only accessible through the files.")
         add_to_history(data)
-        return(["puzzle_main", username])
+        return ["puzzle_main", username]
       else:
         data["$error"] = play_result
   exit()
