@@ -24,7 +24,7 @@ def user_signout():
 def user_signin(usr):
   try:
     with open("local_data/username", "w", encoding="utf-8") as file:
-      file.write("rurkan")
+      file.write(usr)
   except PermissionError:
     print("ERROR, FILE COULD NOT BE WRITTEN TO")
 
@@ -105,3 +105,13 @@ def clear_history(data):
     df.to_csv(path, mode = 'w', index=False)
     return True
   return False
+
+def get_completed_puzzles(data):
+  username = data["$username"]
+  path = "local_data/puzzle_history/"+username+".csv"
+  if os.path.exists(path):
+    user_history = pd.read_csv(path)
+    data["$num_puzzles"]=str(len(user_history))
+  else:
+    data["$num_puzzles"]="0"
+  return data

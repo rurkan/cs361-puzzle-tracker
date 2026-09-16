@@ -6,14 +6,15 @@ from methods.print_helper import (
   centerprint_string,
   incomplete_screen,
   print_with_modifiers,
-  printwrap
+  printwrap,
 )
 from methods.user_data import (
   user_signout,
   user_signin,
   generate_account,
   signin_valid,
-  add_to_history
+  add_to_history,
+  get_completed_puzzles,
 )
 
 screen_path = "src/screens/"
@@ -25,6 +26,7 @@ def make_dict(
   id=None,
   prev_move=None,
   move_corr=None,
+  num_puzzles=None,
 ):
   data = {
     "$error": err,
@@ -33,6 +35,7 @@ def make_dict(
     "$puzzleid": id,
     "$previous_move": prev_move,
     "$move_correct": move_corr,
+    "$num_puzzles": num_puzzles,
   }
   return data
   
@@ -60,6 +63,8 @@ def display_screen(lines, data = None):
       modifiers.append("$board")
     if("$previous_move" in line):
       modifiers.append("$previous_move")
+    if("$num_puzzles" in line):
+      modifiers.append("$num_puzzles")
     if(line[0] == "-"):
       modifiers.append("-")
     if(line[0] == " "):
@@ -239,7 +244,8 @@ def play_puzzle(username, PuzzleId=None, Theme=None):
   
 
 def account_settings(username):
-  userin = get_screen_input(screen_path+"account_settings.txt", make_dict(usr=username))
+  data = get_completed_puzzles(make_dict(usr=username))
+  userin = get_screen_input(screen_path+"account_settings.txt", data)
   match userin:
     case "1":
       return(confirmation_screen("user_history_reset", username))
@@ -251,7 +257,7 @@ def account_settings(username):
       return(["ex", None])
       
 def confirmation_screen(confirmation_type, username):
-  userin = get_screen_input(screen_path+""+confirmation_type+".txt", make_dict(username))
+  userin = get_screen_input(screen_path+""+confirmation_type+".txt", make_dict(usr=username))
   if(confirmation_type == "user_history_reset"):
     if(userin == "confirm_reset"):
       incomplete_screen("DELETED HISTORY")
