@@ -56,7 +56,10 @@ You may have to add run permissions to  the shell file, using "chmod +x ./run.sh
 
 ### **Known Errors and Issues**
 #### **No Puzzle Library**
-```
+```bash
+#BASH
+usr@pc:~/.../cs361-puzzle-tracker$ ./run.sh
+
 Attempting to load puzzles data file, please wait! This can take a while.
 
 ERROR: You do not currently have a puzzle library, please put it at:
@@ -67,4 +70,10 @@ ERROR: You do not currently have a puzzle library, please put it at:
 Alternatives are acceptable if they follow the Lichess database formatting
 ```
 If you receive an error about not having a puzzle database, download or create a puzzle database,
-and place it in the ./local_data folder, with the name "puzzles_library.csv".
+and place it in the ./local_data folder, with the name "puzzles_library.csv". The Lichess puzzle
+database comes zipped as a .zst file, and must be unzipped for use. On Linux, this can be done with
+the following command if zstd is installed (often by default).
+```bash
+# BASH
+zstd -d lichess_db_puzzle.csv.zst
+```
