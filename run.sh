@@ -15,6 +15,7 @@ elif command -v py >/dev/null 2>&1; then
   PYTHON_VER="py"
 else
   printf "Python was not found, please install python.\n"
+  exit 0
 fi
 
 if [ "$(uname)" == "Linux" ]; then

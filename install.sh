@@ -22,7 +22,7 @@ elif command -v py >/dev/null 2>&1; then
   PIP_VER="py -m pip"
 else
   printf "Installation incomplete, no python found.\n"
-  exit(0)
+  exit
 fi
 
 $PYTHON_VER -m venv .venv
