@@ -1,6 +1,7 @@
 from time import sleep
 from sys import exit
 from methods.clear import clearscreen
+from methods.gameplay import puzzle_handler, play_move
 from methods.print_helper import (
   centerprint_string,
   incomplete_screen,
@@ -11,18 +12,36 @@ from methods.user_data import (
   user_signout,
   user_signin,
   generate_account,
-  signin_valid
+  signin_valid,
+  add_to_history
 )
 
 screen_path = "src/screens/"
-
-def display_screen(lines, error = None, username = None):
+  
+def make_dict(
+  err=None,
+  usr=None,
+  brd=None,
+  id=None,
+  prev_move=None,
+  move_corr=None,
+):
+  data = {
+    "$error": err,
+    "$username": usr,
+    "$board": brd,
+    "$puzzleid": id,
+    "$previous_move": prev_move,
+    "$move_correct": move_corr,
+  }
+  return data
+  
+def display_screen(lines, data = None):
   clearscreen()
-  data = []
+  return_data = []
   for line in lines[1:]:
-    
     # If the line is blank or has no modifiers, just print
-    if (len(line) == 0 or line[0].isalnum()):
+    if (len(line) == 0):
       printwrap(line)
       continue
       
@@ -35,6 +54,12 @@ def display_screen(lines, error = None, username = None):
       modifiers.append("$error")
     if("$username" in line):
       modifiers.append("$username")
+    if("$puzzleid" in line):
+      modifiers.append("$puzzleid")
+    if("$board" in line):
+      modifiers.append("$board")
+    if("$previous_move" in line):
+      modifiers.append("$previous_move")
     if(line[0] == "-"):
       modifiers.append("-")
     if(line[0] == " "):
@@ -42,30 +67,35 @@ def display_screen(lines, error = None, username = None):
     if(line[0] == ">"):
       modifiers.append(">")
     
-    val = print_with_modifiers(line, modifiers, error, username)
+    val = print_with_modifiers(line, modifiers, data)
     if ">" in modifiers:
       if val == "cancel":
         return val
-      data.append(val)
-
+      return_data.append(val)
   if not ">" in modifiers:
-    data = input("Option Select: ").lower()
-  return data
+    return_data = input("Input Move: " if "$board" in lines else "Option Select: ").lower()
+  return return_data
 
 
-def get_screen_input(filepath, error = None, username = None):
+def get_screen_input(filepath, data):
 
   with open(filepath, 'r', encoding='utf-8') as file:
     lines = file.read().splitlines()
   
   options = lines[0].split()
-  userin = display_screen(lines, error, username)
+  userin = display_screen(lines, data)
+  
   if type(userin) is not list:
     while userin.lower() not in options:
-      userin = display_screen(lines, "PLEASE INPUT A SELECTION FROM THE OPTIONS AVAILABLE", username)
+      if "cancel" in options:
+        return userin
+      data["$error"]="PLEASE INPUT A SELECTION FROM THE OPTIONS AVAILABLE"
+      userin = display_screen(lines,  data)
+      
   elif(len(userin)>2 and userin[1] != userin[2]):
-    while (userin[1] != userin[2]):
-      userin = display_screen(lines, "PASSWORDS DO NOT MATCH. PLEASE TRY AGAIN")
+    while ("cancel" not in userin and userin[1] != userin[2]):
+      data["$error"]="PASSWORDS DO NOT MATCH. PLEASE TRY AGAIN"
+      userin = display_screen(lines, data)
     
   return userin
   
@@ -85,12 +115,19 @@ def screen_select_handler(screen_code, username = None):
       return(create_account_home())
     case "create_account_input":
       return(create_account_input())
+    case "puzzle_main":
+      return(puzzles_main(username))
+    case "play_puzzle":
+      return(play_puzzle(username))
     case "settings":
       return(account_settings(username))
+    case _:
+      print("The screen "+screen_code+" does not currently exist. We apologize.")
+      exit()
       
     
 def login_home():
-  userin = get_screen_input(screen_path+"login_home.txt")
+  userin = get_screen_input(screen_path+"login_home.txt", make_dict())
   match userin:
     case "1":
       # centerprint_string("PROMPT USER FOR LOGIN INFO, INCOMPLETE", "-")
@@ -102,9 +139,9 @@ def login_home():
     case _:
       return(["ex", None])
       
-      
+
 def login_input():
-  userin = get_screen_input(screen_path+"login_input.txt")
+  userin = get_screen_input(screen_path+"login_input.txt", make_dict())
   logged_in = signin_valid(userin)
   while logged_in != True:
     if logged_in == "cancel":
@@ -113,32 +150,29 @@ def login_input():
       return(["login", None])
     else:
       error = "ERROR: INCORRECT USERNAME OR PASSWORD, TRY AGAIN"
-      userin = get_screen_input(screen_path+"login_input.txt", error)
+      userin = get_screen_input(screen_path+"login_input.txt", make_dict(err=error))
       logged_in = signin_valid(userin)
   user_signin(userin[0])
   return(["menu",userin[0]])
       
   
 def main_menu(username):
-  userin = get_screen_input(screen_path+"main_menu.txt", None, username)
+  userin = get_screen_input(screen_path+"main_menu.txt", make_dict(usr=username))
   match userin:
     case "1":
-      incomplete_screen("PUZZLE")
-      return(["ex", None])
+      return(["puzzle_main", username])
     case "2":
-      incomplete_screen("HISTORY")
-      return(["ex", None])
+      return(["history",username])
     case "3":
       return(["settings", username])
     case "p":
-      incomplete_screen("PUZZLE")
-      return(["ex", None])
+      return(["play_puzzle", username])
     case _:
       return(["ex", None])
 
 
 def create_account_home():
-  userin = get_screen_input(screen_path+"create_account_home.txt")
+  userin = get_screen_input(screen_path+"create_account_home.txt", make_dict())
   
   match userin:
     case "1":
@@ -149,7 +183,7 @@ def create_account_home():
       return(["ex", None])
 
 def create_account_input():
-  userin = get_screen_input(screen_path+"create_account_input.txt")
+  userin = get_screen_input(screen_path+"create_account_input.txt", make_dict())
   created = generate_account(userin)
   while created is not True:
     if created == "cancel":
@@ -161,14 +195,51 @@ def create_account_input():
         error = "ERROR: ACCOUNT WITH THIS USERNAME ALREADY EXISTS"
       case "same":
         error = "ERROR: USERNAME AND PASSWORD CANNOT BE THE SAME"
-    userin = get_screen_input(screen_path+"create_account_input.txt", error)
+    userin = get_screen_input(screen_path+"create_account_input.txt", make_dict(err=error))
     created = generate_account(userin)
 
   return(["login", None])
 
+def puzzles_main(username):
+  userin = get_screen_input(screen_path+"puzzles_main.txt", make_dict(usr=username))
+  match userin:
+    case "1":
+      return(["play_puzzle",username])
+    case "2":
+      return(["puzzle_theme",username])
+    case "3":
+      return(["puzzle_id",username])
+    case "m":
+      return(["menu",username])
+    case _:
+      return(["ex", None])
+
+def play_puzzle(username, PuzzleId=None, Theme=None):
+  data = make_dict(usr=username, id=PuzzleId)
+  data["theme"]=Theme
+  data = puzzle_handler(data)
+
+  play_result = False
+  while play_result != "success":
+    userin = get_screen_input(screen_path+"play_puzzle.txt", data)
+    if userin == "cancel":
+      centerprint_string("You input CANCEL. Going back to the puzzle menu.","-")
+      sleep(2)
+      return(["puzzle_main", username])
+    else:
+      play_result = play_move(data, userin)
+      if play_result == "success":
+        print("Writing puzzle to player history, please wait.")
+        add_to_history(data)
+        return(["puzzle_main", username])
+      else:
+        data["$error"] = play_result
+  exit()
+  
+  
 
 def account_settings(username):
-  userin = get_screen_input(screen_path+"account_settings.txt", None, username)
+  userin = get_screen_input(screen_path+"account_settings.txt", make_dict(usr=username))
   match userin:
     case "1":
       return(confirmation_screen("user_history_reset", username))
@@ -177,10 +248,10 @@ def account_settings(username):
     case "m":
       return(["menu", username])
     case _:
-      return(["ex"])
+      return(["ex", None])
       
 def confirmation_screen(confirmation_type, username):
-  userin = get_screen_input(screen_path+""+confirmation_type+".txt")
+  userin = get_screen_input(screen_path+""+confirmation_type+".txt", make_dict(username))
   if(confirmation_type == "user_history_reset"):
     if(userin == "confirm_reset"):
       incomplete_screen("DELETED HISTORY")

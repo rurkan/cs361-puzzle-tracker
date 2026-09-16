@@ -2,13 +2,17 @@ from sys import exit
 from methods.clear import clearscreen
 from methods.user_data import get_username
 from interface import screen_select_handler
+from methods.puzzle_manager import read_puzzles
 
 
 def main():
   screen_code = None
   print("Loading puzzles data file, please wait! This can take a while.")
-  # In the future, this will load the puzzles data file
-  # The message is to make sure users know it's frozen for a reason
+  read_puzzles()
+  # read_puzzles("local_data/lichess_db_puzzle.csv")
+  # 1GB database including 6 million puzzles o_O, loading takes forever
+  
+  # return()
   clearscreen()
   # Check if there's already a username file, if not, display login screen
   if username != None:

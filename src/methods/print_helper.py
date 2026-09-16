@@ -43,24 +43,26 @@ def incomplete_screen(screen_name):
 
 def replace(line, data, modifier):
   modifier_loc = line.find(modifier)
-  if data is not None:
-    return line[:modifier_loc] + data + line[modifier_loc + len(modifier) :]
+  if data[modifier] is not None:
+    return line[:modifier_loc] + data[modifier] + line[modifier_loc + len(modifier) :]
   else:
     placeholder = "NullUser" if modifier == "$username" else ""
     return line[:modifier_loc] + placeholder + line[modifier_loc + len(modifier) :]
 
 
-def apply_replacements(line, modifiers, error=None, username=None):
-  if "$error" in modifiers:
-    line = replace(line, error, "$error")
-  if "$username" in modifiers:
-    line = replace(line, username, "$username")
+def apply_replacements(line, modifiers, data):
+  if data is not None:
+    for modifier in list(data.keys()):
+      if modifier in modifiers:
+        line = replace(line, data, modifier)
   return line
 
 
-def print_with_modifiers(line, modifiers, error=None, username=None):
-  line = apply_replacements(line, modifiers, error, username)
-  if "-" in modifiers or ("$error" in modifiers and error != None):
+def print_with_modifiers(line, modifiers, data):
+  if data is None:
+    data = {"$error": None}
+  line = apply_replacements(line, modifiers, data)
+  if "-" in modifiers or ("$error" in modifiers and data["$error"] != None):
     centerprint_string(line, "-")
     return
   if " " in modifiers:
@@ -79,6 +81,4 @@ def print_with_modifiers(line, modifiers, error=None, username=None):
       print("\033[1A\033[2K", end="", flush=True)
 
     return userin
-    # centerprint_string(line, ">")
-    # Currently don't have the actual verison of this implemented
   print(line)

@@ -1,0 +1,10 @@
+other cancel
+-PLAY PUZZLES
+ Chess CLI Puzzles
+ You can also exit this puzzle by inputting the move "CANCEL"
+$error
+Puzzle ID: $puzzleid
+
+$board
+
+Previous Move: $previous_move

@@ -71,3 +71,22 @@ def signin_valid(login_info):
     .all()
   )
   return login_good
+
+def add_to_history(data):
+  username  = data["$username"]
+  PuzzleId = data["$puzzleid"]
+  Rating = data["rating"]
+  path = "local_data/puzzle_history/"+username+".csv"
+  df = pd.DataFrame({
+    "PuzzleId": [PuzzleId],
+    "Rating": [Rating],
+  })
+  if os.path.exists(path):
+    current_history = pd.read_csv(path)
+    df = pd.concat([current_history, df], ignore_index=True)
+    df.drop_duplicates(subset=["PuzzleId"], keep="first", inplace=True)
+    df.to_csv(path, mode = 'w', index=False)
+  else:
+    df.to_csv(path, mode='w', index=False)
+  
+  sleep(1.5)

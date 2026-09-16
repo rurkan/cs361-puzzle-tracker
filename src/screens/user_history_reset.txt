@@ -2,6 +2,6 @@ confirm_reset cancel
 -PUZZLE HISTORY RESET CONFIRMATION
 
  Are you sure that you want to reset your puzzle history? If it is not backed up somewhere else, this deletion is permanent.
-
+$error
  To delete this account's puzzle history, type "CONFIRM_RESET".
  To cancel, type "cancel"
