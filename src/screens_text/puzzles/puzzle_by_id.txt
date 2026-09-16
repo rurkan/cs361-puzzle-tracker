@@ -1,6 +1,6 @@
 cancel other
--PLAY PUZZLE BY id1brvZc
+-PLAY PUZZLE BY ID
  Chess CLI Puzzles
- Please enter a valid PuzzleId
+ Please enter a valid PuzzleId or type "CANCEL" to return to the puzzle menu
 $error
 >Puzzle ID: 

@@ -1,6 +1,7 @@
 other cancel
 -CREATE YOUR ACCOUNT
-
+ Chess CLI Puzzles
+ 
  Usernames and passwords must be alphanumeric.
  Please enter your account information
 
@@ -8,7 +9,7 @@ other cancel
  Accounts are purely local and as such a backup of the app including account data should be kept on another device.
 
 
- To go back, instead type CANCEL
+ To go back, instead type "CANCEL" for any input
 $error
 >Username: 
 >Password: 

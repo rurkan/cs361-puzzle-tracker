@@ -1,5 +1,6 @@
 confirm_reset cancel
 -PUZZLE HISTORY RESET CONFIRMATION
+ Chess CLI Puzzles
 
  Are you sure that you want to reset your puzzle history? If it is not backed up somewhere else, this deletion is permanent.
 $error

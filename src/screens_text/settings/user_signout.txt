@@ -1,4 +1,8 @@
 y n
 -SIGNOUT CONFIRMATION
+ Chess CLI Puzzles
 $error
  Are you sure that you want to sign out of your account? Input (Y/N)
+
+Y. Sign Out
+N. Return to Account Settings

@@ -4,7 +4,7 @@
  Please select a puzzle option from the following
 $error
 1. Random Puzzle
-2. Random Puzzle by Themes
+2. Random Puzzle by Theme
 3. Play Puzzle by PuzzleId
 M. Main Menu
 EX. Exit Application

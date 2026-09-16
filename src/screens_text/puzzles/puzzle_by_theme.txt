@@ -1,7 +1,7 @@
 cancel themes other
--RANDOM PUZZLE BY Themes
+-RANDOM PUZZLE BY THEMES
  Chess CLI Puzzles
- Please enter a theme, type "themes" for a list of themes, or "cancel" to return
+ Please enter a theme, type "themes" for a list of themes, or "CANCEL" to return to the puzzle menu
 $error
  $themes
 >Puzzle Theme: 

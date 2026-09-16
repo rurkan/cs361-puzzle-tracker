@@ -1,5 +1,6 @@
 other cancel
 -LOG IN TO YOUR ACCOUNT
+ Chess CLI Puzzles
 
  As a reminder, usernames and passwords are alphanumeric
 

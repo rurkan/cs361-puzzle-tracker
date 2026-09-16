@@ -1,5 +1,5 @@
 other cancel
--CHANGE CANCELLATION Delay
+-CHANGE CANCELLATION DELAY
  Chess CLI Puzzles
  Change Cancellation Delay For: $username
 $error

@@ -1,10 +1,13 @@
 1 2 3 p ex
--MAIN MENU 
+-MAIN MENU
+ Chess CLI Puzzles
+
  Hello, $username
  What would you like to do today?
 $error
+P. Quick Play Random Puzzles
+
 1. Play Puzzles
 2. View Play History
 3. Account Settings
-P. Quick Play Random Puzzles
 EX. Exit Application
