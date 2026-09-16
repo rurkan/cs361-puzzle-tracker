@@ -42,10 +42,7 @@ touch local_data/user_info.csv
 mkdir local_data/puzzle_history
 
 printf "Installing required packages with pip\n"
-# pip3 install grpcio grpcio-tools chess > logs/pip.log
 $PIP_VER install chess pandas > logs/pip.log
 cd src
-# python3 -m grpc_tools.protoc -I ../proto --python_out=. --grpc_python_out=. ../proto/jsonFormat.proto
 cd ..
-# echo -e "\nRun the following command to start Python Virtual Environment: \nsource .venv/bin/activate\n"
 printf "Installation complete\n\n"

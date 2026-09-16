@@ -56,8 +56,3 @@ def puzzles_with_theme(df, Theme):
 def valid_theme(Theme):
   themes_list = get_themes()
   return Theme in themes_list
-
-# df = read_puzzles("local_data/lichess_db_puzzle.csv")
-df = read_puzzles()
-
-print(get_puzzle(PuzzleId="00J5q"))
