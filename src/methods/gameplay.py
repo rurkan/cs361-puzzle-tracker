@@ -22,6 +22,7 @@ def puzzle_handler(data):
   data["game"] = chess_board
   data["$board"] = board_to_string(chess_board)
   data["rating"] = puzzle_dict["Rating"]
+  data["incorrect_moves"] = 0
 
   return data
 
@@ -56,6 +57,7 @@ def play_move(data, move_uci):
     data["$previous_move"]=cpu_move
     data["$board"] = board_to_string(game)
     return "Your move, "+str(move_uci)+" was correct. Move next."
+  data["incorrect_moves"]+=1
   return "Your move, "+str(move_uci)+" was incorect. Try again."
     
     

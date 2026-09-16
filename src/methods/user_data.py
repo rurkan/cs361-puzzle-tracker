@@ -76,10 +76,12 @@ def add_to_history(data):
   username  = data["$username"]
   PuzzleId = data["$puzzleid"]
   Rating = data["rating"]
+  IncorrectMoves = data["incorrect_moves"]
   path = "local_data/puzzle_history/"+username+".csv"
   df = pd.DataFrame({
     "PuzzleId": [PuzzleId],
     "Rating": [Rating],
+    "IncorrectMoves": [IncorrectMoves]
   })
   if os.path.exists(path):
     current_history = pd.read_csv(path)
@@ -90,3 +92,16 @@ def add_to_history(data):
     df.to_csv(path, mode='w', index=False)
   
   sleep(1.5)
+
+def clear_history(data):
+  username = data["$username"]
+  path = "local_data/puzzle_history/"+username+".csv"
+  if os.path.exists(path):
+    df = pd.DataFrame({
+      "PuzzleId": [],
+      "Rating": [],
+      "IncorrectMoves": []
+    })
+    df.to_csv(path, mode = 'w', index=False)
+    return True
+  return False
