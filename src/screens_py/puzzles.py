@@ -79,7 +79,8 @@ def play_puzzle(username, PuzzleId=None, Theme=None):
     else:
       play_result = play_move(data, userin)
       if play_result == "success":
-        print("Writing puzzle to player history, please wait.")
+        print("Puzzle complete! Writing puzzle to player history, please wait.")
+        print("Puzzle history is currently only accessible through the files.")
         add_to_history(data)
         return(["puzzle_main", username])
       else:
