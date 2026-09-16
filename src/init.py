@@ -1,8 +1,9 @@
 from sys import exit
-from methods.clear import clearscreen
-from methods.user_data import get_username
+
 from interface import screen_select_handler
+from methods.clear import clearscreen
 from methods.puzzle_manager import read_puzzles
+from methods.user_data import get_username
 
 
 def main():

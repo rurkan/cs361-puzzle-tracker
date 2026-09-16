@@ -1,8 +1,9 @@
 # The file localdata/username exists solely as an unencrypted way to cache
 # the current logged in user, so people don't have to sign back in every time
 import os
-import pandas as pd
 from time import sleep
+
+import pandas as pd
 
 
 def get_username():
@@ -49,7 +50,9 @@ def generate_account(user_data):
   if valid_result is not True:
     return valid_result
   else:
-    formatted_data = {"username": [user_data[0]], "password_plaintext": [user_data[1]]}
+    formatted_data = {"username": [user_data[0]], 
+                      "password_plaintext": [user_data[1]],
+                      "cancel_time": 2}
     pandas_data = pd.DataFrame(formatted_data)
     pandas_data.to_csv(
       "local_data/users_plaintext.csv", mode="a", header=False, index=False
@@ -115,3 +118,15 @@ def get_completed_puzzles(data):
   else:
     data["$num_puzzles"]="0"
   return data
+
+def set_cancel_time(username, new_time):
+  df = pd.read_csv("local_data/users_plaintext.csv")
+  df.loc[df["username"]==username,"cancel_time"]=new_time
+  
+  df.to_csv(
+    "local_data/users_plaintext.csv", mode="w", index=False
+  )
+
+def get_cancel_time(username):
+  df = pd.read_csv("local_data/users_plaintext.csv")
+  return((df.loc[df["username"]==username,"cancel_time"]).to_list()[0])

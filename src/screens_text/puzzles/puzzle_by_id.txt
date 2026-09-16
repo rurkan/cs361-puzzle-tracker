@@ -1,0 +1,6 @@
+cancel other
+-PLAY PUZZLE BY id1brvZc
+ Chess CLI Puzzles
+ Please enter a valid PuzzleId
+$error
+>Puzzle ID: 

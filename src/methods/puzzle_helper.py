@@ -1,4 +1,5 @@
-import chess
+import chess  # noqa: F401
+
 
 def fen_to_list(fen):
   fen+="/"
@@ -75,7 +76,3 @@ def build_board_string(rows, turn):
 
 def board_to_string(game):
   return build_board_string(board_to_list(game), game.turn)
-
-
-def print_board(game):
-  print(board_to_string(game))

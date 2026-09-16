@@ -1,4 +1,5 @@
 import chess
+
 from methods.puzzle_helper import board_to_string
 from methods.puzzle_manager import get_puzzle
 
@@ -6,6 +7,8 @@ from methods.puzzle_manager import get_puzzle
 def puzzle_handler(data):
   # get_puzzle generates a dictionary with the puzzle information
   puzzle_dict = get_puzzle(PuzzleId=data["$puzzleid"], Theme=data["theme"])
+  if puzzle_dict is None:
+    return None
   chess_board = chess.Board()
   chess_board.set_fen(puzzle_dict["FEN"])
 
