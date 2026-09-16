@@ -5,7 +5,7 @@ Universal Chess Interface (UCI) notation, and the board is displayed purely usin
 unicode characters and ANSI codes for more colorful or readable formatting. The ideal operating system
 to use this program on is Linux, as that is what it was designed on.
 
-<img src="https://private-user-images.githubusercontent.com/166444308/653394617-961b2ff9-d3e6-4537-82f0-7ccf535027d4.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODk2MDI2NDcsIm5iZiI6MTc4OTYwMjM0NywicGF0aCI6Ii8xNjY0NDQzMDgvNjUzMzk0NjE3LTk2MWIyZmY5LWQzZTYtNDUzNy04MmYwLTdjY2Y1MzUwMjdkNC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwOTE2JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDkxNlQyMzQ1NDdaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0xMmI5ZWNhZGNiMGEzNTRhM2U0MDhjNWE5ZDZjYjM2OWFkZmQyMzE5MzhkMWQyYmEyMGM1MTM0NGMwODQ1OGY2JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.qzWCquCe5U6DOufTvWIeNIrqvw-1y5xaDWrjZ7wGRfM" width=40%>
+<img src="preview.png" width=40%>
 
 ### Disclaimers:
 - This program was built with the Linux operating system in mind
