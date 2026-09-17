@@ -31,7 +31,7 @@ def login_input():
       return ["login", None]
     else:
       error = "ERROR: INCORRECT USERNAME OR PASSWORD, TRY AGAIN"
-      userin = get_screen_input("login_input.txt", make_dict(err=error))
+      userin = get_screen_input(login_create+"login_input.txt", make_dict(err=error))
       logged_in = signin_valid(userin)
   user_signin(userin[0])
   return ["menu", userin[0]]
@@ -62,7 +62,7 @@ def create_account_input():
         error = "ERROR: ACCOUNT WITH THIS USERNAME ALREADY EXISTS"
       case "same":
         error = "ERROR: USERNAME AND PASSWORD CANNOT BE THE SAME"
-    userin = get_screen_input("create_account_input.txt", make_dict(err=error))
+    userin = get_screen_input(login_create+"create_account_input.txt", make_dict(err=error))
     created = generate_account(userin)
 
   return ["login", None]
