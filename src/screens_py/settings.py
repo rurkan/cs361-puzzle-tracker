@@ -4,9 +4,9 @@ from data import make_dict, settings
 from methods.input_helper import get_screen_input
 from methods.print_helper import (
   centerprint_string,
-  incomplete_screen,
 )
 from methods.user_data import (
+  clear_history,
   get_cancel_time,
   get_completed_puzzles,
   set_cancel_time,
@@ -57,8 +57,12 @@ def confirmation_screen(confirmation_type, username):
   )
   if confirmation_type == "user_history_reset":
     if userin == "confirm_reset":
-      incomplete_screen("DELETED HISTORY")
-      return ["ex", None]
+      centerprint_string(
+        "Clearing user history for user: "+username+". Please wait.", "-"
+        )
+      sleep(3)
+      clear_history(username)
+      return ["menu", username]
     centerprint_string(
       "You did not input one of the available options, auto-cancelling.", "-"
     )

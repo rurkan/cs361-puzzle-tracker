@@ -98,8 +98,7 @@ def add_to_history(data):
   sleep(1.5)
 
 
-def clear_history(data):
-  username = data["$username"]
+def clear_history(username):
   path = "local_data/puzzle_history/" + username + ".csv"
   if os.path.exists(path):
     df = pd.DataFrame({"PuzzleId": [], "Rating": [], "IncorrectMoves": []})
