@@ -5,6 +5,7 @@ from data import make_dict, puzzles
 from methods.gameplay import play_move, puzzle_handler
 from methods.input_helper import get_screen_input
 from methods.print_helper import centerprint_string
+from methods.puzzle_helper import string_from_fen
 from methods.puzzle_manager import get_themes
 from methods.user_data import add_to_history, get_cancel_time
 
@@ -18,6 +19,8 @@ def puzzle_main(username):
       return ["puzzle_theme", username]
     case "3":
       return ["puzzle_id", username]
+    case "4":
+      return ["display_board", username]
     case "m":
       return ["menu", username]
     case _:
@@ -88,3 +91,22 @@ def play_puzzle(username, PuzzleId=None, Theme=None):
       else:
         data["$error"] = play_result
   exit()
+
+
+def display_board_fen(username):
+  data = make_dict(usr=username)
+  while True:
+    userin = get_screen_input(puzzles + "display_board.txt", data)
+    data["$error"] = None
+    if userin == "cancel":
+      centerprint_string("You input CANCEL. Going back to the puzzle menu.", "-")
+      sleep(get_cancel_time(username))
+      return ["puzzle_main", username]
+    else:
+      board = string_from_fen(userin[0])
+      if board is not None:
+        data["$board"] = board
+        continue
+      else:
+        print("error side")
+        data["$error"] = "ERROR: Not valid FEN formatting, please try again."

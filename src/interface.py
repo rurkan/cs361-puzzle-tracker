@@ -8,7 +8,13 @@ from screens_py.login_create import (
   login_input,
 )
 from screens_py.main_menu import main_menu
-from screens_py.puzzles import play_puzzle, puzzle_by_id, puzzle_by_theme, puzzle_main
+from screens_py.puzzles import (
+  display_board_fen,
+  play_puzzle,
+  puzzle_by_id,
+  puzzle_by_theme,
+  puzzle_main,
+)
 from screens_py.settings import account_settings
 
 
@@ -36,6 +42,8 @@ def screen_select_handler(screen_code, username=None):
       return puzzle_by_theme(username)
     case "puzzle_id":
       return puzzle_by_id(username)
+    case "display_board":
+      return display_board_fen(username)
     case "settings":
       return account_settings(username)
     case _:

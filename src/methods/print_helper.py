@@ -78,6 +78,9 @@ def print_with_modifiers(line, modifiers, data):
       if userin.isalnum():
         isvalid = True
         continue
+      if "FEN" in line:
+        isvalid = True
+        continue
       print("\033[1A\033[2K", end="", flush=True)
 
     return userin

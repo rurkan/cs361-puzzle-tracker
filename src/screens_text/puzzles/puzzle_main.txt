@@ -1,4 +1,4 @@
-1 2 3 m ex
+1 2 3 4 m ex
 -PUZZLES MENU
  Chess CLI Puzzles
  Please select a puzzle option from the following
@@ -6,5 +6,6 @@ $error
 1. Random Puzzle
 2. Random Puzzle by Theme
 3. Play Puzzle by PuzzleId
+4. Display Board by FEN
 M. Main Menu
 EX. Exit Application

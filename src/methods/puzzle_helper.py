@@ -74,3 +74,12 @@ def build_board_string(rows, turn):
 
 def board_to_string(game):
   return build_board_string(board_to_list(game), game.turn)
+
+
+def string_from_fen(fen):
+  game = chess.Board()
+  try:
+    game.set_fen(fen)
+    return build_board_string(board_to_list(game), game.turn)
+  except ValueError:
+    return None

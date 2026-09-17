@@ -1,0 +1,7 @@
+other cancel
+-DISPLAY BOARD
+ Chess CLI Puzzles
+ You can display a chess board by inputting valid full FEN (not just board FEN), or return to the puzzle menu by typing "CANCEL"
+$error
+$board
+>Input FEN: 
