@@ -11,15 +11,21 @@ def read_puzzles(path=None):
     df = pd.read_csv(path)
     return df
   except FileNotFoundError:
-    print(
-      "\nERROR: You do not currently have a puzzle library, please put it at:\n\t./local_data/puzzles_library.csv"
-    )
-    print(
-      "\n A recommended puzzle database is the Lichess database, found at https://database.lichess.org/#puzzles\n"
-    )
-    print(
-      "Alternatives are acceptable if they follow the Lichess database formatting\n"
-    )
+    if(path == "local_data/puzzles_library.csv"):
+      print(
+        "\nERROR: You do not currently have a default puzzle library.\n"
+        "To have one load automatically, please put it at:"
+        "\n\t./local_data/puzzles_library.csv"
+      )
+      print(
+        "\nA recommended puzzle database is the Lichess database, found at https://database.lichess.org/#puzzles\n"
+      )
+      print(
+        "Alternatives are acceptable if they follow the Lichess database formatting\n"
+      )
+    else:
+      print("\nERROR: Puzzle library, "+path+", did not load. Check its location, name, and try again")
+
     return False
 
 
